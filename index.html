@@ -6,6 +6,8 @@
   <meta http-equiv="X-UA-Compatible" content="ie=edge">
   <title>Facebook Login</title>
   <script src="js/cookie.js"></script>
+  <!-- 합쳐지고 최소화된 최신 CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
 </head>
 <body>
   <script>
@@ -29,8 +31,38 @@
   </script>
 
   <!-- content -->
-  <h1>Facebook Login front-end example</h1>
+  <div class="container">
+    <h1>Facebook Login front-end example</h1>
 
+    <button
+      id="btn-facebook-login"
+      class="btn btn-primary btn-block"
+      onclick="fbLogin()">Facebook Login</button>
+  </div>
 
+  <script>
+    // cookie에 token이 있는지 검사하여 token이 없을 경우에만 #btn-facebook-login의 display style을 block으로 바꾸어줌
+    var hasToken = cookieHasToken();
+    if (!hasToken) {
+      document.getElementById('btn-facebook-login').style.display = 'block';
+    } else {
+      document.getElementById('btn-facebook-login').style.display = 'none';
+    }
+
+    function fbLogin() {
+      // 페이스북 버튼을 누른 순간, 브라우저에 페이스북 로그인이 되어있는지 검사
+      FB.getLoginStatus(function(response) {
+        console.log(response);
+      });
+    }
+
+    function cookieHasToken() {
+      var token = getCookie('token');
+      if (token == undefined || token == null || token == '') {
+        return false;
+      }
+      return true;
+    }
+  </script>
 </body>
 </html>
